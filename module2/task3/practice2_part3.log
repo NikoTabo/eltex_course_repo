@@ -1,0 +1,90 @@
+git config --global user.name "NikoTabo"
+git config --global user.email  "bolotenko.nikita@yandex.ru"
+git config --global init.defaultBranch main
+apt update
+apt install git gh
+ssh-keygen -t ed25519 -f ~/.ssh/NikoTabo
+root@eltex-practice2-pg1-v5:~/.ssh# gh auth login
+#? What account do you want to log into? GitHub.com
+#? What is your preferred protocol for Git operations on this host? SSH
+#? Upload your SSH public key to your GitHub account? /root/.ssh/NikoTabo.pub
+#? Title for your SSH key: eltex-practice2-pg1-v5
+#? How would you like to authenticate GitHub CLI? Login with a web browser
+gh auth setup-git --hostname github.com
+gh auth status
+# ? Logged in to github.com account NikoTabo (/root/.config/gh/hosts.yml)
+#  - Active account: true
+#...
+gh repo create --public eltex_course_repo
+mkdir ~/eltex_course_repo && cd ~/eltex_course_repo
+echo "# Логи с модуля 1 курса элтекс" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+# 1 file changed, 1 insertion(+)
+#create mode 100644 README.md
+git branch -M main
+git remote add origin https://github.com/NikoTabo/eltex_course_repo
+git status
+#On branch main
+#nothing to commit, working tree clean
+git push -u origin main
+#Enumerating objects: 3, done.
+#Counting objects: 100% (3/3), done.
+#Delta compression using up to 2 threads
+#Compressing objects: 100% (2/2), done.
+#...
+scp -r -P 22 pratcice1 root@172.16.9.179:~/
+#Перекидываем файлы по каталогам с помощью mv
+git add .
+git status
+#Changes to be committed:
+#  (use "git restore --staged <file>..." to unstage)
+#        new file:   module1/task1/report_part1.txt
+#        new file:   module1/task2/eltex-pg1-v5_part2.log
+#        new file:   module1/task3/eltex-pg1-v5_part3.log
+#        new file:   module1/task3/eltex-pg1-v5_part3_gt50M.log
+git commit
+git push
+#Enumerating objects: 11, done.
+#Counting objects: 100% (11/11), done.
+#Delta compression using up to 2 threads
+#Compressing objects: 100% (9/9), done.
+#..
+mkdir ~/eltex_course_repo_clone && cd ~/eltex_course_repo_clone
+git clone https://github.com/NikoTabo/eltex_course_repo .
+#создадим в корне репозитория тестовый файл, добавим его и запушим
+git fetch 
+#remote: Enumerating objects: 4, done.
+#remote: Counting objects: 100% (4/4), done.
+#remote: Compressing objects: 100% (2/2), done.
+#...
+git log origin/main
+#commit 48fe888b18849e3c0a0ff6fbf6afdd58a5ff2cb6 (origin/main, origin/HEAD)
+#Author: NikoTabo <bolotenko.nikita@yandex.ru>
+#Date:   Thu Apr 10 10:41:51 2025 +0000
+#
+#    Next commit
+#
+#commit da6f0e919c9fbc914c65eacbf84eb2ef118ebf85 (HEAD -> main)
+#Author: NikoTabo <bolotenko.nikita@yandex.ru>
+#Date:   Thu Apr 10 10:33:11 2025 +0000
+#
+#    secondCommit
+#
+#commit bec7634d4167ad9940477cd8c6a7cecab8520488
+#Author: NikoTabo <bolotenko.nikita@yandex.ru>
+#Date:   Thu Apr 10 10:13:48 2025 +0000
+#
+#    first commit
+git diff main origin/main
+#diff --git a/test_file b/test_file
+#new file mode 100644
+#index 0000000..e69de29
+git merge
+#Updating da6f0e9..48fe888
+#Fast-forward
+# test_file | 0
+# 1 file changed, 0 insertions(+), 0 deletions(-)
+# create mode 100644 test_file
+#Перенесём с помощью scp логи со второй практики и добавим их в репозиторий
