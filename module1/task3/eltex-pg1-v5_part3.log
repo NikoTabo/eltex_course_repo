@@ -1,0 +1,16 @@
+touch "${USER}_part3.log"
+echo "touch \"\${USER}_part3.log\"" >> "eltex-pg1-v5_part3.log"
+mkdir -p D1/D2/D3
+touch file.txt
+echo "test_text"
+ln ../file.txt hard_link.txt
+ln -s ../file.txt symlink.txt
+ls -i
+ls -l
+rm -rf D2
+find / -type f -size +50M
+find / -type f -size +50M > ${USER}_part3_gt50M.log 2>/dev/null
+find -type f  -mtime -1
+which find
+file $(which find)
+file /boot/initrd.img*

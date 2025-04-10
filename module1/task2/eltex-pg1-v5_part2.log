@@ -1,0 +1,17 @@
+touch ${USER}_part.log
+echo $HISTFILESIZE
+ls -d .*
+nano .bashrc
+source ~/.bashrc
+history
+date
+DATE=$(date +"%F")
+echo $DATE
+TIME=$(date +"%T")
+echo $TIME
+DATE_TIME="$DATE $TIME"
+echo $DATE_TIME
+find /bin/ /sbin/ -type f -name '*[0-9]*'
+export PS1='${USER}@${HOSTNAME}-${DATE_TIME}$ '
+bash
+mkdir -p ~/$(date +"%Y")-{01..12}
