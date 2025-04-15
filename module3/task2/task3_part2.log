@@ -1,0 +1,51 @@
+touch template_task.sh
+#Напишим скрипт с следующим содержанием:
+##!/bin/bash
+#
+#echo "[$$] $(date +"%Y-%m-%d %H:%M:%S") : Скрипт запущен." >> report_template_task.log
+#number=$(( RANDOM % 1771 + 30 ))
+#sleep $number
+#echo "[$$] $(date +"%Y-%m-%d %H:%M:%S") : Скрипт завершился, работая $number секунд." >> report_template_task.log
+#echo "------------------------------------------------------------------------" >> report_template_task.log
+chmod +x template_task.sh
+./template_task.sh
+cat report_template_task.log
+#[44213] 2025-04-14 13:26:56 : Скрипт запущен.
+#[44213] 2025-04-14 13:27:29 : Скрипт завершился, работая 33 секунд.
+#------------------------------------------------------------------------
+#[44218] 2025-04-14 13:28:08 : Скрипт запущен.
+#[44218] 2025-04-14 13:28:41 : Скрипт завершился, работая 33 секунд.
+#------------------------------------------------------------------------
+#[44224] 2025-04-14 13:28:57 : Скрипт запущен.
+#[44224] 2025-04-14 13:29:27 : Скрипт завершился, работая 30 секунд.
+#------------------------------------------------------------------------
+#Здесь скрипт запускался 3 раза и работал около 30 секунд, т.к. диапозон был уменьшен, для быстрой проверки результатов
+
+touch observer.sh
+chmod +x observer.sh
+cp template_task.sh template_task2.sh
+cp template_task.sh template_task3.sh
+#Код скрипта:
+##!/bin/bash
+#
+#CONFIG_FILE="/home/eltex-pg1-v5/practice3/scripts.conf"
+#LOG_FILE="/home/eltex-pg1-v5/practice3/observer.log"
+#
+## Чтение конфигурационного файла построчно
+#while IFS= read -r script_path; do
+#    if ! pgrep -f "$script_path" > /dev/null; then
+#        nohup "$script_path" > /dev/null 2>&1 &
+#        echo "$(date '+%Y-%m-%d %H:%M:%S') - [INFO] Скрипт '$script_path' был перезапущен." >> "$LOG_FILE"
+#    fi
+#done < "$CONFIG_FILE"
+ps aux
+#В списке появились скрипты, указанные в конфигурационном файле
+#eltex-p+   45798  0.0  0.0   6940  3264 pts/8    S    14:22   0:00 /bin/bash /home/eltex-pg1-v5/practice3/template_task.sh
+#eltex-p+   45802  0.0  0.0   5472   924 pts/8    S    14:22   0:00 sleep 1276
+#eltex-p+   45803  0.0  0.0   6940  3292 pts/8    S    14:22   0:00 /bin/bash /home/eltex-pg1-v5/practice3/template_task2.sh
+#eltex-p+   45807  0.0  0.0   5472   880 pts/8    S    14:22   0:00 sleep 1153
+#eltex-p+   45808  0.0  0.0   6940  3308 pts/8    S    14:22   0:00 /bin/bash /home/eltex-pg1-v5/practice3/template_task3.sh
+#eltex-p+   45812  0.0  0.0   5472   872 pts/8    S    14:22   0:00 sleep 347
+crontab -e
+#В crontab добавляем * * * * * /home/eltex-pg1-v5/practice3/observer.sh >> /home/eltex-pg1-v5/practice3/observer.log 2>&1
+

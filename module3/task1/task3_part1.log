@@ -1,0 +1,47 @@
+ps -eLf | awk '{print $2}' | uniq -c | awk '$1 > 1 {print $0}'
+#7 359
+2 674
+4 688
+2 689
+6 698
+4 706
+2 717
+4 747
+6 1124
+#4 1131
+top
+#Переходим в настройки отображения на "f", убираем и добавляем поля на "d", нажимаем стрелку вправо и поднимаем ruser под user
+passwd
+#Нажимаем o и добавляем фильтр COMMAND=passwd. Чтобы посмотреть все процессы user1, нажимаем o и вводим "RUSER=user1"
+kill -15 14023
+kill -9 14023
+#Во втором окне Changing password for user1. Current password: Killed
+kill -2 14036
+kill -3 14036
+vim ~/file_task3.txt
+#При нажатии ctrl+z процесс останавливается
+sleep 600
+jobs
+#[1]-  Stopped                 vim ~/file_task3.txt
+#[2]+  Stopped                 sleep 600
+bg %2
+#[2]+ sleep 600 &
+jobs
+#[1]+  Stopped                 vim ~/file_task3.txt
+#[2]-  Running                 sleep 600 &
+renice 10 -p 14052
+#14052 (process ID) old priority 0, new priority 10
+ps -o pid,ni,cmd
+#    PID  NI CMD
+#  13797   0 bash
+#  14045   0 vim /home/user1/file_task3.txt
+#  14052  10 sleep 600
+#  14085   0 ps -o pid,ni,cmd
+fg %1
+#Зашли в редактор vim, завершили его и он пропал из jobs
+kill -15 %1
+jobs -l
+#[1]+ 14099 Terminated              sleep 600
+trap 'echo "Меня голыми руками не возьмёшь!"' SIGINT SIGQUIT
+kill -2 $$
+#Меня голыми руками не возьмёшь!
